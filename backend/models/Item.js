@@ -20,7 +20,17 @@ const ItemSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["electronics", "documents", "accessories", "bags", "clothing", "keys", "books", "id-card", "other"],
+      enum: [
+        "electronics",
+        "documents",
+        "accessories",
+        "bags",
+        "clothing",
+        "keys",
+        "books",
+        "id-card",
+        "other",
+      ],
     },
     location: {
       type: String,
@@ -45,6 +55,10 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    imagePublicId: {
+      type: String,
+      default: "",
+    },
     status: {
       type: String,
       enum: ["pending", "matched", "resolved"],
@@ -53,5 +67,7 @@ const ItemSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+ItemSchema.index({ title: "text", description: "text" });
 
 module.exports = mongoose.model("Item", ItemSchema);

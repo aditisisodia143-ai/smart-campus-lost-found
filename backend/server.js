@@ -4,12 +4,14 @@ process.on("uncaughtException", (err) => {
 process.on("unhandledRejection", (err) => {
   console.error("UNHANDLED REJECTION:", err);
 });
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
+
 const itemRoutes = require("./routes/items");
-const authRoutes = require("./routes/auth"); // NEW
+const studentRoutes = require("./routes/students");
 
 const app = express();
 
@@ -31,7 +33,6 @@ app.use(
   })
 );
 
-app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -39,7 +40,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/items", itemRoutes);
-app.use("/api/auth", authRoutes); 
+app.use("/api/students", studentRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
