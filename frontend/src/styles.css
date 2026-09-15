@@ -338,6 +338,153 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
+/* ---------- Custom date picker ---------- */
+
+.datepicker {
+  position: relative;
+}
+
+.datepicker-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.datepicker-trigger:hover {
+  border-color: var(--primary);
+}
+
+.datepicker-trigger:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.datepicker-trigger svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.datepicker-placeholder {
+  color: var(--text-muted);
+}
+
+.datepicker-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  width: 280px;
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(20, 34, 56, 0.98), rgba(6, 11, 22, 0.98));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: fadeInUp 0.15s ease;
+}
+
+.datepicker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.datepicker-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.datepicker-nav {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.datepicker-nav:hover {
+  background: var(--primary);
+  color: var(--primary-dark);
+}
+
+.datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.datepicker-weekdays span {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.datepicker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.datepicker-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.datepicker-cell:hover {
+  background: var(--primary-light);
+}
+
+.datepicker-cell-empty {
+  cursor: default;
+  pointer-events: none;
+}
+
+.datepicker-cell-today {
+  border: 1px solid var(--accent);
+}
+
+.datepicker-cell-selected,
+.datepicker-cell-selected:hover {
+  background: var(--accent);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
 /* ---------- Item cards ---------- */
 
 .item-grid {

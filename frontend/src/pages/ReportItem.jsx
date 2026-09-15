@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createItem } from "../api/api";
 import { CATEGORIES } from "../constants";
+import DatePicker from "../components/DatePicker";
 
 const initialForm = {
   type: "lost",
@@ -36,6 +37,10 @@ export default function ReportItem() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    if (!form.date) {
+      setError("Please select a date.");
+      return;
+    }
     setSubmitting(true);
     try {
      
@@ -140,7 +145,10 @@ export default function ReportItem() {
         <div className="form-row">
           <label>
             Date {form.type === "lost" ? "lost" : "found"}
-            <input type="date" name="date" value={form.date} onChange={handleChange} required />
+            <DatePicker
+              value={form.date}
+              onChange={(date) => setForm((prev) => ({ ...prev, date }))}
+            />
           </label>
         </div>
 
