@@ -7,6 +7,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      workbox: {
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+      },
       devOptions: {
         enabled: true,
       },
@@ -14,20 +19,15 @@ export default defineConfig({
         name: "ReUnite - Campus Lost & Found",
         short_name: "ReUnite",
         description: "Report and find lost items on campus.",
-        theme_color: "#0A4174",
-        background_color: "#0A4174",
+        theme_color: "#060b16",
+        background_color: "#060b16",
         display: "standalone",
         start_url: "/",
         icons: [
           {
-            src: "icon-192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "icon-512.png",
-            sizes: "512x512",
-            type: "image/png",
+            src: "favicon.svg",
+            sizes: "any",
+            type: "image/svg+xml",
           },
         ],
       },
