@@ -1,7 +1,19 @@
 import { useEffect, useState, useCallback } from "react";
 import { getItems } from "../api/api";
 import ItemCard from "../components/ItemCard";
+import Dropdown from "../components/Dropdown";
 import { CATEGORIES } from "../constants";
+
+const TYPE_OPTIONS = [
+  { value: "", label: "All types" },
+  { value: "lost", label: "Lost" },
+  { value: "found", label: "Found" },
+];
+
+const CATEGORY_OPTIONS = [
+  { value: "", label: "All categories" },
+  ...CATEGORIES.map((c) => ({ value: c, label: c })),
+];
 
 function useDebouncedValue(value, delay) {
   const [debounced, setDebounced] = useState(value);
@@ -63,19 +75,8 @@ export default function Home() {
           onChange={(e) => setKeyword(e.target.value)}
           className="search-input"
         />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="">All types</option>
-          <option value="lost">Lost</option>
-          <option value="found">Found</option>
-        </select>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="">All categories</option>
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        <Dropdown value={type} onChange={setType} options={TYPE_OPTIONS} />
+        <Dropdown value={category} onChange={setCategory} options={CATEGORY_OPTIONS} />
       </div>
 
       {loading && <p>Loading items...</p>}

@@ -307,6 +307,10 @@ a {
   flex-wrap: wrap;
 }
 
+.filter-bar .dropdown {
+  min-width: 160px;
+}
+
 .search-input {
   flex: 1;
   min-width: 240px;

@@ -1,8 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
+function normalize(option) {
+  if (typeof option === "object" && option !== null) {
+    return { value: option.value, label: option.label ?? option.value };
+  }
+  return { value: option, label: option };
+}
+
 export default function Dropdown({ value, onChange, options, placeholder = "Select..." }) {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
+  const normalized = options.map(normalize);
+  const current = normalized.find((o) => o.value === value);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -21,8 +30,8 @@ export default function Dropdown({ value, onChange, options, placeholder = "Sele
     };
   }, []);
 
-  function selectOption(option) {
-    onChange(option);
+  function selectOption(optionValue) {
+    onChange(optionValue);
     setOpen(false);
   }
 
@@ -35,7 +44,9 @@ export default function Dropdown({ value, onChange, options, placeholder = "Sele
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span className={value ? "" : "dropdown-placeholder"}>{value || placeholder}</span>
+        <span className={current ? "" : "dropdown-placeholder"}>
+          {current ? current.label : placeholder}
+        </span>
         <svg
           className={`dropdown-chevron${open ? " dropdown-chevron-open" : ""}`}
           viewBox="0 0 24 24"
@@ -51,15 +62,15 @@ export default function Dropdown({ value, onChange, options, placeholder = "Sele
 
       {open && (
         <ul className="dropdown-panel" role="listbox">
-          {options.map((option) => (
+          {normalized.map((option) => (
             <li
-              key={option}
+              key={option.value}
               role="option"
-              aria-selected={option === value}
-              className={`dropdown-option${option === value ? " dropdown-option-selected" : ""}`}
-              onClick={() => selectOption(option)}
+              aria-selected={option.value === value}
+              className={`dropdown-option${option.value === value ? " dropdown-option-selected" : ""}`}
+              onClick={() => selectOption(option.value)}
             >
-              {option}
+              {option.label}
             </li>
           ))}
         </ul>
