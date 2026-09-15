@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createItem } from "../api/api";
 import { CATEGORIES } from "../constants";
 import DatePicker from "../components/DatePicker";
+import Dropdown from "../components/Dropdown";
 
 const initialForm = {
   type: "lost",
@@ -120,13 +121,11 @@ export default function ReportItem() {
         <div className="form-row">
           <label>
             Category
-            <select name="category" value={form.category} onChange={handleChange}>
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              value={form.category}
+              onChange={(category) => setForm((prev) => ({ ...prev, category }))}
+              options={CATEGORIES}
+            />
           </label>
 
           <label>
