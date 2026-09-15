@@ -1,6 +1,20 @@
 import { useEffect, useState, useCallback } from "react";
 import { getItems, updateItemStatus, deleteItem } from "../api/api";
+import Dropdown from "../components/Dropdown";
 import { STATUSES } from "../constants";
+
+const TYPE_OPTIONS = [
+  { value: "", label: "All types" },
+  { value: "lost", label: "Lost" },
+  { value: "found", label: "Found" },
+];
+
+const STATUS_OPTIONS = [
+  { value: "", label: "All statuses" },
+  ...STATUSES.map((s) => ({ value: s, label: s })),
+];
+
+const STATUS_ROW_OPTIONS = STATUSES.map((s) => ({ value: s, label: s }));
 
 export default function AdminDashboard() {
   const [items, setItems] = useState([]);
@@ -56,19 +70,8 @@ export default function AdminDashboard() {
       </p>
 
       <div className="filter-bar">
-        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-          <option value="">All types</option>
-          <option value="lost">Lost</option>
-          <option value="found">Found</option>
-        </select>
-        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-          <option value="">All statuses</option>
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
+        <Dropdown value={typeFilter} onChange={setTypeFilter} options={TYPE_OPTIONS} />
+        <Dropdown value={statusFilter} onChange={setStatusFilter} options={STATUS_OPTIONS} />
       </div>
 
       {loading && <p>Loading...</p>}
@@ -101,16 +104,11 @@ export default function AdminDashboard() {
                   <td>{item.reporterName}</td>
                   <td>{item.reporterContact}</td>
                   <td>
-                    <select
+                    <Dropdown
                       value={item.status}
-                      onChange={(e) => handleStatusChange(item._id, e.target.value)}
-                    >
-                      {STATUSES.map((s) => (
-                        <option key={s} value={s}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={(status) => handleStatusChange(item._id, status)}
+                      options={STATUS_ROW_OPTIONS}
+                    />
                   </td>
                   <td>
                     <button className="link-button danger" onClick={() => handleDelete(item._id)}>

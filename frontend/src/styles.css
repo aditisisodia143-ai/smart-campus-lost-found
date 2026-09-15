@@ -311,6 +311,15 @@ a {
   min-width: 160px;
 }
 
+.admin-table .dropdown {
+  min-width: 120px;
+}
+
+.admin-table .dropdown-trigger {
+  padding: 8px 12px;
+  font-size: 0.88rem;
+}
+
 .search-input {
   flex: 1;
   min-width: 240px;
