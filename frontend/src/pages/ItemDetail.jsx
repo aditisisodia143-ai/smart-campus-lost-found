@@ -59,13 +59,11 @@ export default function ItemDetail() {
       </Link>
 
       <div className="item-detail">
-        <div className="item-detail-image">
-          {item.imageUrl ? (
+        {item.imageUrl && (
+          <div className="item-detail-image">
             <img src={item.imageUrl} alt={item.title} />
-          ) : (
-            <div className="item-card-noimage large">No image provided</div>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="item-detail-info">
           <div className="item-card-tags">

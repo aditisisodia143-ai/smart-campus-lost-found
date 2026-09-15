@@ -3,14 +3,12 @@ import MatchBadge from "./MatchBadge";
 
 export default function ItemCard({ item, matchScore }) {
   return (
-    <Link to={`/items/${item._id}`} className="item-card">
-      <div className="item-card-image">
-        {item.imageUrl ? (
+    <Link to={`/items/${item._id}`} className={`item-card item-card-${item.type}`}>
+      {item.imageUrl && (
+        <div className="item-card-image">
           <img src={item.imageUrl} alt={item.title} />
-        ) : (
-          <div className="item-card-noimage">No image</div>
-        )}
-      </div>
+        </div>
+      )}
       <div className="item-card-body">
         <div className="item-card-tags">
           <span className={`tag tag-${item.type}`}>{item.type}</span>
