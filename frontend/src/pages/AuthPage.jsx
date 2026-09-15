@@ -32,6 +32,7 @@ export default function AuthPage() {
 
   function saveSessionAndGoHome(data) {
   localStorage.setItem("studentToken", data.token);
+  localStorage.setItem("studentId", data.student.id);
   localStorage.setItem("studentName", data.student.name);
   localStorage.setItem("studentRole", data.student.role);
   navigate("/");

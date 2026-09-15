@@ -25,6 +25,7 @@ router.post("/", requireStudent, upload.single("image"), async (req, res) => {
       date,
       reporterName: req.student.name,
       reporterContact: req.student.contact || req.student.email,
+      reportedBy: req.student.id,
       imageUrl: req.file ? req.file.path : "",
       imagePublicId: req.file ? req.file.filename : "",
     });
@@ -105,10 +106,19 @@ router.patch("/:id/status", requireAdmin, async (req, res) => {
 });
 
 
-router.delete("/:id", requireAdmin, async (req, res) => {
+router.delete("/:id", requireStudent, async (req, res) => {
   try {
-    const item = await Item.findByIdAndDelete(req.params.id);
+    const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Item not found" });
+
+    const isAdmin = req.student.role === "admin";
+    const isOwner = item.reportedBy && item.reportedBy.toString() === req.student.id;
+
+    if (!isAdmin && !isOwner) {
+      return res.status(403).json({ message: "You can only delete your own reports" });
+    }
+
+    await item.deleteOne();
     res.json({ message: "Item deleted" });
   } catch (err) {
     res.status(500).json({ message: "Failed to delete item", error: err.message });

@@ -51,6 +51,10 @@ const ItemSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    reportedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
     imageUrl: {
       type: String,
       default: "",

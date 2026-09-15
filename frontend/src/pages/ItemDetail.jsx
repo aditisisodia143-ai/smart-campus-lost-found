@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getItem, getMatches } from "../api/api";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { getItem, getMatches, deleteItem } from "../api/api";
 import MatchBadge from "../components/MatchBadge";
 
 export default function ItemDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [item, setItem] = useState(null);
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchesLoading, setMatchesLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -33,6 +35,22 @@ export default function ItemDetail() {
   if (!item) return null;
 
   const oppositeLabel = item.type === "lost" ? "Found" : "Lost";
+  const currentStudentId = localStorage.getItem("studentId");
+  const currentRole = localStorage.getItem("studentRole");
+  const canDelete =
+    (item.reportedBy && item.reportedBy === currentStudentId) || currentRole === "admin";
+
+  async function handleDelete() {
+    if (!window.confirm("Delete this report permanently? This can't be undone.")) return;
+    setDeleting(true);
+    try {
+      await deleteItem(id);
+      navigate("/");
+    } catch (err) {
+      alert("Failed to delete: " + (err.response?.data?.message || err.message));
+      setDeleting(false);
+    }
+  }
 
   return (
     <div className="container narrow">
@@ -71,6 +89,17 @@ export default function ItemDetail() {
               <strong>Contact:</strong> {item.reporterContact}
             </li>
           </ul>
+
+          {canDelete && (
+            <button
+              className="link-button danger"
+              onClick={handleDelete}
+              disabled={deleting}
+              style={{ marginTop: "1rem" }}
+            >
+              {deleting ? "Deleting..." : "Delete this report"}
+            </button>
+          )}
         </div>
       </div>
 
