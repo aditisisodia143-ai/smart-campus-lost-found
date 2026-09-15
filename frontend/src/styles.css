@@ -333,6 +333,11 @@ textarea:focus {
   box-shadow: 0 0 0 3px var(--primary-light);
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
 /* ---------- Item cards ---------- */
 
 .item-grid {
